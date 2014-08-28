@@ -49,6 +49,7 @@
  */
  (function(scope) {
   var dispatcher = scope.dispatcher;
+  var eventFactory = scope.eventFactory;
   var flick = {
     // @TODO (dfreedman): value should be low enough for low speed flicks, but
     // high enough to remove accidental flicks
@@ -62,6 +63,9 @@
       'move',
       'up',
       'cancel'
+    ],
+    exposes: [
+     'flick'
     ],
     down: function(inEvent) {
       if (inEvent.isPrimary && !this.pointerId) {
@@ -111,7 +115,6 @@
       var ma = Math.abs(x) > Math.abs(y) ? 'x' : 'y';
       var a = this.calcAngle(x, y);
       if (Math.abs(v) >= this.MIN_VELOCITY) {
-        dispatcher.dispatchEvent(ev, this.target);
         var e = eventFactory.makeGestureEvent('flick', {
           xVelocity: x,
           yVelocity: y,
@@ -128,5 +131,5 @@
       return (Math.atan2(inY, inX) * 180 / Math.PI);
     }
   };
-  dispatcher.registerRecognizer('flick', flick);
-})(window.PointerGestures);
+  dispatcher.registerGesture('flick', flick);
+})(window.PolymerGestures);
