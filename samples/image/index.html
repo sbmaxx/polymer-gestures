@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>polymer-gestures testing ground</title>
+    <style>
+      body, html {
+        margin: 0;
+        height: 100%;
+        position: relative;
+      }
+
+    </style>
+    <script src="../../polymer-gestures.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var element = document.querySelector('logo');
+            var transform = {
+                angle: 0,
+                x: 0,
+                y: 0,
+                scale: 1
+            }
+            PolymerGestures.addEventListener(element, 'track', function(e) {
+                if (e.ddx) {
+                    transform.x += ddx;
+                }
+                if (e.ddy) {
+                    transform.y += ddy;
+                }
+                updateElem();
+            });
+            PolymerGestures.addEventListener(element, 'rotate', function(e) {
+                transform.scale = e.scale;
+            });
+            PolymerGestures.addEventListener(element, 'pinch', function(e) {
+                transform.angle = e.angle;
+            });
+            function updateElem() {
+                var style = [
+                    'translate(' + transform.x + 'px, ' + transform.y + 'px)',
+                    'scale(' + transform.scale + ')',
+                    'rotate(' + transform.angle + 'deg)'
+                ].join(' ');
+                el.style.webkitTransform = style;
+                el.style.transform = style;
+            }
+        });
+    </script>
+  </head>
+  <body touch-action="none">
+      <img class="logo" src="http://www.polymer-project.org/images/logos/p-logo.svg" alt="polymer logo" width="416" height="286">
+  </body>
+</html>
