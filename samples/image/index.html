@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>polymer-gestures with image</title>
+    <style>
+      .container {
+        position: absolute;
+        margin: 30px;
+      }
+    </style>
+    <script src="../../polymer-gestures.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var cntr = document.querySelector('.container'),
+                img = document.querySelector('.demo');
+
+            var x = 0,
+                y = 0;
+
+            PolymerGestures.addEventListener(cntr, 'track', function(e) {
+                if (e.ddx) {
+                    x += e.ddx;
+                }
+                if (e.ddy) {
+                    y += e.ddy;
+                }
+                cntr.setAttribute('style', [
+                    'left: ' + x + 'px',
+                    'top: ' + y + 'px'
+                ].join(';'));
+            });
+
+            PolymerGestures.addEventListener(img, 'pinch', function(e) {
+              img.setAttribute('style', [
+                '-webkit-transform: scale(' + e.scale + ')',
+                'transform: scale(' + e.scale + ')'
+              ].join(';'));
+            });
+
+        });
+    </script>
+  </head>
+  <body>
+    <div class="container" touch-action="none">
+        <img class="demo" touch-action="none" src="http://www.polymer-project.org/images/logos/p-logo.svg" width="416" height="286">
+    </div>
+  </body>
+</html>
