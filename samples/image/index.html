@@ -17,11 +17,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       body, html {
         margin: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .logo {
           cursor: pointer;
           border: 3px dashed silver;
           padding: 20px;
+          width: 416px;
+          height: 286px;
+      }
+      .img {
+          background-image: url(//www.polymer-project.org/images/logos/p-logo.svg);
+          width: 416px;
+          height: 286px;
       }
       .animate {
           -webkit-transition: all .5s;
@@ -30,13 +40,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <script src="../../polymer-gestures.js"></script>
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
+
             var log = document.querySelector('.log');
             var element = document.querySelector('.logo');
             var transform;
-            var updating = false;
+
             resetElem();
+
             PolymerGestures.addEventListener(element, 'track', function(e) {
                 if (e.ddx) {
                     transform.x += e.ddx;
@@ -46,18 +57,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
                 reqUpdate();
             });
+
             PolymerGestures.addEventListener(element, 'pinch', function(e) {
                 transform.scale = e.scale;
                 reqUpdate();
             });
+
             PolymerGestures.addEventListener(element, 'rotate', function(e) {
                 transform.angle = e.angle;
                 reqUpdate();
             });
+
             PolymerGestures.addEventListener(element, 'trackend', function(e) {
                 resetElem();
                 reqUpdate();
             });
+
             function updateElem() {
                 var style = [
                     'translate(' + transform.x + 'px, ' + transform.y + 'px)',
@@ -66,8 +81,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 ].join(' ');
                 element.style.webkitTransform = style;
                 element.style.transform = style;
-                updating = false;
             }
+
             function resetElem() {
                 transform = {
                     x: 0,
@@ -76,25 +91,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     scale: 1
                 };
                 element.classList.add('animate');
-                // fast&dirty
+                // fast & dirty
                 setTimeout(function() {
                     element.classList.remove('animate');
                 }, 500);
             }
+
             function reqUpdate() {
-                if (!updating) {
-                    updating = true;
-                    requestAnimationFrame(updateElem);
-                }
+                requestAnimationFrame(updateElem);
             }
+
             function debug(message) {
                 log.innerHTML = message + '<br>' + log.innerHTML;
             }
+
         });
     </script>
   </head>
-  <body touch-action="none">
-      <img class="logo" touch-action="none" src="http://www.polymer-project.org/images/logos/p-logo.svg" alt="polymer logo" width="416" height="286">
+  <body>
+      <div class="logo" touch-action="none"><div class="img"></div></div>
       <div class="log"></div>
   </body>
 </html>
